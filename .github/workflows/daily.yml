@@ -2,20 +2,30 @@ name: Daily Stock Report
 
 on:
   schedule:
-    - cron: '0 0 * * *' # 매일 한국 시간 오전 9시 실행
-  workflow_dispatch: # 이 구문이 있어야 Actions 탭에 'Run workflow' 버튼이 나타납니다.
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3 # 코드를 체크아웃합니다.
-      - name: Use Node.js
-        uses: actions/setup-node@v3
+      # 1. 저장소의 코드를 로봇 환경으로 가져오는 필수 단계입니다.
+      - name: Checkout Repository
+        uses: actions/checkout@v4 
+
+      # 2. Node.js 환경 설정
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
-      - run: npm install # package.json의 의존성을 설치합니다.[cite: 4]
-      - run: node src/index.js # 분석 스크립트를 실행합니다.[cite: 3]
+          node-version: '20' # 최신 버전 권장
+
+      # 3. 최상위에 있는 package.json을 읽어 설치합니다.
+      - name: Install Dependencies
+        run: npm install
+
+      # 4. 스크립트 실행
+      - name: Run Script
+        run: node src/index.js
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }} 
           ALPHA_VANTAGE_KEY: ${{ secrets.ALPHA_VANTAGE_KEY }}
