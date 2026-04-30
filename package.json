@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "description": "AI Stock Analysis Bot using Gemini",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
     "start": "node src/index.js"
   },
-  "dependencies": {
-    "node-fetch": "^3.3.2"
-  },
+  "dependencies": {},
   "engines": {
     "node": ">=18"
   }
