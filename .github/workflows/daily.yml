@@ -1,34 +1,13 @@
 name: Daily Stock Report
-
 on:
-  schedule:
-    - cron: '0 0 * * *'
   workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # 브랜치를 main으로 고정해서 코드를 가져옵니다.
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          ref: main 
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      # 파일이 진짜 있는지 로봇에게 목록을 출력하게 시킵니다 (디버깅용)
-      - name: Check Files
-        run: ls -R
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Run Script
-        run: node src/index.js
+      - uses: actions/checkout@v4
+      - name: Run Without Install
+        run: node src/index.js # npm install 없이 바로 실행
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }} 
           ALPHA_VANTAGE_KEY: ${{ secrets.ALPHA_VANTAGE_KEY }}
