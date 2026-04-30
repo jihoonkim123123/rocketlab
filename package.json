@@ -1,9 +1,8 @@
 {
   "name": "rocketlab-stock-bot",
   "version": "1.0.0",
-  "description": "AI Stock Analysis Bot using Gemini",
-  "main": "src/index.js",
   "type": "module",
+  "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js"
   },
