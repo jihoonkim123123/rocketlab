@@ -2,28 +2,31 @@ name: Daily Stock Report
 
 on:
   schedule:
-    - cron: '0 0 * * *' # 매일 한국 시간 오전 9시 실행
-  workflow_dispatch: # 직접 실행 버튼 활성화
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # [필수] 저장소의 파일을 로봇 환경으로 복사해옵니다. 이 단계가 없으면 파일을 못 찾습니다.
+      # 브랜치를 main으로 고정해서 코드를 가져옵니다.
       - name: Checkout Repository
-        uses: actions/checkout@v4 
+        uses: actions/checkout@v4
+        with:
+          ref: main 
 
-      # [선택] Node.js 환경 구축 (v20 권장)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # [실행] 이제 최상위에 있는 package.json을 인식합니다.
+      # 파일이 진짜 있는지 로봇에게 목록을 출력하게 시킵니다 (디버깅용)
+      - name: Check Files
+        run: ls -R
+
       - name: Install Dependencies
         run: npm install
 
-      # [실행] src 폴더 안의 index.js를 실행합니다.
       - name: Run Script
         run: node src/index.js
         env:
